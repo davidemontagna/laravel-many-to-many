@@ -32,10 +32,23 @@
                           <label>Category</label>
                           <select name="category_id" class="form-control @error('category_id') is-invalid @enderror">
                             <option value="">Select category</option>
-                            @foreach ($categories a $category)
-                              <option value="{{ $category->id }}" {{ $category->id == old('category_id', $post->category_id) ? 'selected' : '' }}> {{ $category->name }} </option>
+                            @foreach ($categories as $category)
+                              <option value="{{ $category->id }}"> {{ $category->name }} </option>
                             @endforeach
                           </select>
+                          @error('category_id')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                          @enderror
+                        </div>
+
+                        <div class="form-group">
+                          <label>Tags</label>
+                          @foreach ($tags as $tag)
+                              <div class="form-check">
+                                <input type="checkbox" name="tags[]" class="form-check-input" value="{{$tag->id}}" id="{{$tag->slug}}">
+                                <label class="form-check-label" for="{{$tag->slug}}" >{{$tag->name}}</label>
+                              </div>
+                          @endforeach
                           @error('category_id')
                             <div class="invalid-feedback">{{ $message }}</div>
                           @enderror

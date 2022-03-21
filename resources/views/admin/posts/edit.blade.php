@@ -41,6 +41,19 @@
                             <div class="invalid-feedback">{{ $message }}</div>
                           @enderror
                         </div>
+
+                        <div class="form-group">
+                          <label>Tags</label>
+                          @foreach ($tags as $tag)
+                              <div class="form-check">
+                                <input type="checkbox" name="tags[]" class="form-check-input" value="{{$tag->id}}" id="{{$tag->slug}}" {{($post->tags->contains($tag)) ? " checked" : "" }}>
+                                <label class="form-check-label" for="{{$tag->slug}}" >{{$tag->name}}</label>
+                              </div>
+                          @endforeach
+                          @error('category_id')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                          @enderror
+                        </div>
                         
                         <a href="{{ route("admin.posts.index") }}"><button type="submit" class="btn btn-primary">Submit</button></a>
                     </form>

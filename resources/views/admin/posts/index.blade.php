@@ -20,6 +20,7 @@
                         <th scope="col">Content</th>
                         <th scope="col">Slug</th>
                         <th scope="col">Category</th>
+                        <th>Tags</th>
                         <th scope="col">Actions</th>
                         
                     </tr>
@@ -34,6 +35,13 @@
                         <td>{{$post->content}}</td>
                         <td>{{$post->slug}}</td>
                         <td>{{$post->category ? $post->category->name : "-"}}</td>
+                        <td>
+                            @if(isset($post->tags))
+                                @foreach ($post->tags as $tag)
+                                    {{$tag->name}}
+                                @endforeach
+                            @endif
+                        </td>
                         <td class="d-flex justify-content-start align-items-center">
                             <a href="{{route("admin.posts.show", $post->id)}}"><button type="button" class="btn btn-info">Show</button></a>
                             <a href="{{route("admin.posts.edit", $post->id)}}" class="mx-2"><button type="button" class="btn btn-success">Edit</button></a>

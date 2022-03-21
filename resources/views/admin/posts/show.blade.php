@@ -18,6 +18,15 @@
                             <li class="list-group-item">Content: {{$post->content}}</li>
                             <li class="list-group-item">Slug: {{$post->slug}}</li>                        
                         </ul>
+                        <ul class="list-group list-group-flush">
+                            
+                            <li class="list-group-item">Tags: 
+                                @foreach ($post->tags as $tag)
+                                    {{$tag->name}}
+                                @endforeach
+                            </li>
+                                                   
+                        </ul>
                         <div class="card-body">
                             <a href="{{route("admin.posts.index")}}" class="card-link"><button type="button" class="btn btn-info">Back to table</button></a>
                         

@@ -7,13 +7,15 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use App\Post;
 use App\Category;
+use App\Tag;
 
 class PostController extends Controller
 {
     protected $valid = [
         'title'=>'required|max:150|string',
         'content'=>'required',
-        'category_id' => 'nullable|exists:categories,id'
+        'category_id' => 'nullable|exists:categories,id',
+        'tags' => 'exists:tags,id'
     ];
     /**
      * Display a listing of the resource.
@@ -34,8 +36,9 @@ class PostController extends Controller
     public function create()
     {
         $categories = Category::all();
+        $tags = Tag::all();
 
-        return view('admin.posts.create');
+        return view('admin.posts.create', compact('categories', 'tags'));
     }
 
     /**
@@ -65,6 +68,7 @@ class PostController extends Controller
         
         $new_post->fill($data_form);
         $new_post->save();
+        $new_post->tags()->sync($data_form['tags']);
         return redirect()->route('admin.posts.index');
     }
 
@@ -91,8 +95,9 @@ class PostController extends Controller
     public function edit(Post $post)
     {
         $categories = Category::all();
+        $tags = Tag::all();
 
-        return view('admin.posts.edit', compact('post', 'categories'));
+        return view('admin.posts.edit', compact('post', 'categories', 'tags'));
     }
 
     /**
@@ -121,6 +126,8 @@ class PostController extends Controller
         $data_form['slug'] = $slug;
         
         $post->update($data_form);
+
+        $post->tags()->sync(isset($data_form['tags']) ? $data_form['tags'] : []);
         return redirect()->route('admin.posts.index');
     }
 
