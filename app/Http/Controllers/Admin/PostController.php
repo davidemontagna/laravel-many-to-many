@@ -68,7 +68,10 @@ class PostController extends Controller
         
         $new_post->fill($data_form);
         $new_post->save();
-        $new_post->tags()->sync($data_form['tags']);
+        if(isset($data_form['tags'])){
+            $new_post->tags()->sync($data_form['tags']);
+        }
+        
         return redirect()->route('admin.posts.index');
     }
 
